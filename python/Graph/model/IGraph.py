@@ -1,28 +1,17 @@
 from abc import ABC, abstractmethod
 
 class IGraph(ABC):
-
     @abstractmethod
-    def getNodes(self):
+    def get_node_from_position(self, x, y):
         """TODO"""
         pass
 
     @abstractmethod
-    def getEdges(self):
+    def get_edge_from_positions(self, x1, y1, x2, y2):
         """TODO"""
         pass
 
-    @abstractmethod
-    def getNodeFromPosition(self, x, y):
-        """TODO"""
-        pass
-
-    @abstractmethod
-    def getEdgeFromPositions(self, x1, y1, x2, y2):
-        """TODO"""
-        pass
-
-    def getNeighbours(self, node):
+    def get_neighbours(self, node):
         """TODO"""
         pass
 

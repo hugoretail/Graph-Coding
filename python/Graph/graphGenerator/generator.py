@@ -42,12 +42,15 @@ def __main__():
         edges.append(available_nodes[rdm_pos_index])
         available_nodes.remove(available_nodes[rdm_pos_index])
 
-    folder = "generated/"
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    folder = os.path.join(script_dir, "generated")
+    if not os.path.exists(folder):
+        os.makedirs(folder)
     content = os.listdir(folder)
     files = [file for file in content if os.path.isfile(os.path.join(folder,file))]
     nb_files = len(files)
 
-    with open(folder + "graph_" + str(nb_files) + ".txt", "w") as f:
+    with open(os.path.join(folder, f"graph_{nb_files}.txt"), "w") as f:
         # write nodes
         for n in nodes:
             f.write("N," + str(n[0]) + "," + str(n[1]) + "\n") # N,x,y
