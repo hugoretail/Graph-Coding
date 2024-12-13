@@ -16,5 +16,8 @@ class Node(INode):
         return len(self.edges)
 
     def add_edge(self, edge):
-        # TODO: verify that the current edge we are adding is already inside self.edges
-        self.edges.append(edge)
+        if edge not in self.edges:
+            self.edges.append(edge)
+            return True
+        else:
+            return False

@@ -1,0 +1,1 @@
+git config --global --add safe.directory /media/hugort/ntfsdrive/IUT/Graph-Coding
