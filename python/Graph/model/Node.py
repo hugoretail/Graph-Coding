@@ -1,4 +1,4 @@
-from INode import INode
+from .INode import INode
 
 class Node(INode):
     def __init__(self, x, y):
@@ -15,3 +15,7 @@ class Node(INode):
             return True
         else:
             return False
+
+    def __str__(self):
+        degree = self.get_degree()
+        return f"Node(x={self.x}, y={self.y}, degree={degree})"

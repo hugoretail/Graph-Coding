@@ -1,0 +1,11 @@
+# Pycharm
+python/Graph/.idea/
+
+# Python compiled
+python/Graph/**/__pycache__/
+python/Graph/**/*.pyc
+
+# sys
+*.log
+.vscode/
+*.env

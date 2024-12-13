@@ -7,6 +7,16 @@ class IGraph(ABC):
         pass
 
     @abstractmethod
+    def set_nodes(self, nodes):
+        """TODO"""
+        pass
+
+    @abstractmethod
+    def set_edges(self, edges):
+        """TODO"""
+        pass
+
+    @abstractmethod
     def get_edge_from_positions(self, x1, y1, x2, y2):
         """TODO"""
         pass
