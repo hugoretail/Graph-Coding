@@ -2,20 +2,19 @@ from abc import ABC, abstractmethod
 
 class INode(ABC):
     @abstractmethod
-    def getNode(self):
+    def get_node(self):
         """TODO"""
         pass
 
     @abstractmethod
-    def setNode(self):
+    def get_edges(self):
         """TODO"""
         pass
 
-    @abstractmethod
-    def getEdges(self):
+    def get_degree(self):
         """TODO"""
         pass
 
-    def getDegree(self):
+    def add_edge(self, edge):
         """TODO"""
         pass
