@@ -6,12 +6,6 @@ class Node(INode):
         self.y = y
         self.edges = []
 
-    def get_edges(self):
-        return self.edges
-
-    def get_node(self):
-        return self
-
     def get_degree(self):
         return len(self.edges)
 
