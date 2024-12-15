@@ -28,6 +28,52 @@ class Graph(IGraph):
             if e.node1.x == x1 and e.node1.y == y1 and e.node2.x == x2 and e.node2.y == y2:
                 return e
 
+    def load_nodes_from_file(self, file):
+        nodes = []
+
+        with open(file, "r") as f:
+            for line in f:
+                line = line.strip()
+                if not line:
+                    continue
+
+                elements = line.split(",")
+                if elements[0] == "N":
+                    try:
+                        x = int(elements[1])
+                        y = int(elements[2])
+                        node = Node(x, y)
+                        nodes.append(node)
+                    except (ValueError, IndexError):
+                        print(f"Error while loading the node : {line}")
+
+        self.set_nodes(nodes)
+
+    def load_edges_from_file(self, file):
+        edges_list = []
+
+        with open(file, "r") as f:
+            for line in f:
+                line = line.strip()
+                if not line:
+                    continue
+
+                elements = line.split(",")
+                if elements[0] == "E":
+                    try:
+                        x1 = int(elements[1])
+                        y1 = int(elements[2])
+                        x2 = int(elements[3])
+                        y2 = int(elements[4])
+                        node1 = self.get_node_from_position(x1, y1)
+                        node2 = self.get_node_from_position(x2, y2)
+                        edge = Edge(node1, node2)
+                        edges_list.append(edge)
+                    except (ValueError, IndexError):
+                        print(f"Error while loading the edge : {line}")
+
+        self.set_edges(edges_list)
+
     def __str__(self):
         nodes_str = "\n  ".join(str(node) for node in self.nodes)
         edges_str = "\n  ".join(str(edge) for edge in self.edges)
