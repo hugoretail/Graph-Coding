@@ -7,3 +7,5 @@ python:
         - loading a graph
             - usual ones in specific folder
             - "select in my files" option
+
+test
