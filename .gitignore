@@ -1,5 +1,6 @@
 # Pycharm
 python/Graph/.idea/
+.idea/
 
 # Python compiled
 python/Graph/**/__pycache__/

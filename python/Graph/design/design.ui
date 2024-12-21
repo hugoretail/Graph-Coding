@@ -18,7 +18,7 @@
     <item>
      <widget class="QLabel" name="label">
       <property name="text">
-       <string>TextLabel</string>
+       <string>Please Select a graph first</string>
       </property>
      </widget>
     </item>
@@ -30,11 +30,34 @@
      <x>0</x>
      <y>0</y>
      <width>600</width>
-     <height>28</height>
+     <height>21</height>
     </rect>
    </property>
+   <widget class="QMenu" name="menuLoad">
+    <property name="title">
+     <string>Load</string>
+    </property>
+    <widget class="QMenu" name="menuDefault_Graphs">
+     <property name="title">
+      <string>Default Graphs</string>
+     </property>
+    </widget>
+    <addaction name="menuDefault_Graphs"/>
+    <addaction name="actionLocal_File"/>
+   </widget>
+   <addaction name="menuLoad"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
+  <action name="actionLocal_File">
+   <property name="text">
+    <string>Local File</string>
+   </property>
+  </action>
+  <action name="actionaa">
+   <property name="text">
+    <string>aa</string>
+   </property>
+  </action>
  </widget>
  <resources/>
  <connections/>
