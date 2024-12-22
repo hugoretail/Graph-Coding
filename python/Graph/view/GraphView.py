@@ -23,6 +23,12 @@ class GraphView(QMainWindow):
 
         self.ui.actionLocal_File.triggered.connect(self.open_file_dialog)
 
+        self.apply_algorithms_events()
+
+    def apply_algorithms_events(self):
+        for action in self.ui.menuSearch_Algorithms.actions():
+            action.triggered.connect(lambda checked, alg=action.text(): self.controller.apply_algorithm(alg))
+
     def populate_default_graphs_menu(self):
         graph_folder = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'graphGenerator', 'generated')
 

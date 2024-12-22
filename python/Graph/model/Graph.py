@@ -7,6 +7,7 @@ class Graph(IGraph):
     def __init__(self):
         self.nodes = []
         self.edges = []
+        self.selected_nodes = []
 
     def set_nodes(self, nodes: List[Node]) -> None:
         self.nodes = nodes
@@ -17,11 +18,19 @@ class Graph(IGraph):
             e.node1.add_edge(e)
             e.node2.add_edge(e)
 
+    def add_selected_node(self, node : Node):
+        self.selected_nodes.append(node)
+
+    def remove_selected_node(self, node : Node):
+        self.selected_nodes.remove(node)
+
     def get_node_from_position(self, x, y) -> Node:
         for n in self.nodes:
             if n.x == x and n.y == y :
                 return n
 
+    def get_neighbours(self, node : Node):
+        return node.edges
 
     def get_edge_from_positions(self, x1, y1, x2, y2) -> Edge:
         for e in self.edges:
@@ -73,6 +82,36 @@ class Graph(IGraph):
                         print(f"Error while loading the edge : {line}")
 
         self.set_edges(edges_list)
+
+    def bfs(self):
+        pass
+
+    def dfs(self):
+        pass
+
+    def ucs(self):
+        pass
+
+    def greedy_best_first(self):
+        pass
+
+    def a_star(self):
+        pass
+
+    def dijkstra(self):
+        pass
+
+    def bellman_ford(self):
+        pass
+
+    def floyd_warshall(self):
+        pass
+
+    def prim(self):
+        pass
+
+    def kruskal(self):
+        pass
 
     def __str__(self):
         nodes_str = "\n  ".join(str(node) for node in self.nodes)

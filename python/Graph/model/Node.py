@@ -4,6 +4,7 @@ class Node(INode):
     def __init__(self, x, y):
         self.x = x
         self.y = y
+        self.selected = False
         self.edges = []
 
     def get_degree(self):
