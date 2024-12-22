@@ -1,5 +1,5 @@
 from PyQt5.QtWidgets import QMainWindow, QGraphicsScene, QGraphicsView, QAction, QFileDialog
-from PyQt5.QtGui import QPen
+from PyQt5.QtGui import QPen, QBrush, QColor, QLinearGradient
 from PyQt5.QtCore import Qt
 from .design_view import Ui_MainWindow
 import os
@@ -50,14 +50,26 @@ class GraphView(QMainWindow):
 
     def update_graph(self, nodes, edges):
         self.scene.clear()
-        for node in nodes:
-            x, y = node.x, node.y
-            self.scene.addEllipse(x-5,y-5,10,10, pen=QPen(Qt.black))
+
+        edge_pen = QPen(QColor(50,50,50)) # dark gray
+        edge_pen.setWidth(1)
 
         for edge in edges:
             self.scene.addLine(edge.node1.x,
                                edge.node1.y,
                                edge.node2.x,
                                edge.node2.y,
-                               pen=QPen(Qt.blue))
+                               pen=edge_pen)
+
+        for node in nodes:
+            x, y = node.x, node.y
+            gradient = QLinearGradient(x,y,x+10,y+10)
+            gradient.setColorAt(0, QColor(135,206,250)) # light blue
+            gradient.setColorAt(1,QColor(0,90,180)) # dark blue
+            pen = QPen(Qt.black)
+            pen.setWidth(1)
+            brush = QBrush(gradient)
+            self.scene.addEllipse(x-5,y-5,10,10,pen,brush)
+
+
 

@@ -45,7 +45,26 @@
     <addaction name="menuDefault_Graphs"/>
     <addaction name="actionLocal_File"/>
    </widget>
+   <widget class="QMenu" name="menuSearch_Algorithms">
+    <property name="title">
+     <string>Search Algorithms</string>
+    </property>
+    <addaction name="actionBFS"/>
+    <addaction name="actionDFS"/>
+    <addaction name="actionUCS"/>
+    <addaction name="separator"/>
+    <addaction name="actionGreedy_Best_First"/>
+    <addaction name="actionA"/>
+    <addaction name="separator"/>
+    <addaction name="actionDijkstra"/>
+    <addaction name="actionBellman_Ford"/>
+    <addaction name="actionFloyd_Warshall"/>
+    <addaction name="separator"/>
+    <addaction name="actionPrim"/>
+    <addaction name="actionKruskal"/>
+   </widget>
    <addaction name="menuLoad"/>
+   <addaction name="menuSearch_Algorithms"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
   <action name="actionLocal_File">
@@ -56,6 +75,56 @@
   <action name="actionaa">
    <property name="text">
     <string>aa</string>
+   </property>
+  </action>
+  <action name="actionBFS">
+   <property name="text">
+    <string>BFS</string>
+   </property>
+  </action>
+  <action name="actionDFS">
+   <property name="text">
+    <string>DFS</string>
+   </property>
+  </action>
+  <action name="actionUCS">
+   <property name="text">
+    <string>UCS</string>
+   </property>
+  </action>
+  <action name="actionGreedy_Best_First">
+   <property name="text">
+    <string>Greedy Best-First</string>
+   </property>
+  </action>
+  <action name="actionA">
+   <property name="text">
+    <string>A*</string>
+   </property>
+  </action>
+  <action name="actionDijkstra">
+   <property name="text">
+    <string>Dijkstra</string>
+   </property>
+  </action>
+  <action name="actionBellman_Ford">
+   <property name="text">
+    <string>Bellman-Ford</string>
+   </property>
+  </action>
+  <action name="actionFloyd_Warshall">
+   <property name="text">
+    <string>Floyd-Warshall</string>
+   </property>
+  </action>
+  <action name="actionPrim">
+   <property name="text">
+    <string>Prim</string>
+   </property>
+  </action>
+  <action name="actionKruskal">
+   <property name="text">
+    <string>Kruskal</string>
    </property>
   </action>
  </widget>
