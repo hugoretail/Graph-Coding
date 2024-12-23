@@ -1,4 +1,5 @@
-from PyQt5.QtWidgets import QMainWindow, QGraphicsScene, QGraphicsView, QAction, QFileDialog, QGraphicsEllipseItem
+from PyQt5.QtWidgets import QMainWindow, QGraphicsScene, QGraphicsView, QAction, QFileDialog, QGraphicsEllipseItem, \
+    QGraphicsTextItem
 from PyQt5.QtGui import QPen, QBrush, QColor, QLinearGradient
 from PyQt5.QtCore import Qt
 from .design_view import Ui_MainWindow
@@ -31,7 +32,7 @@ class GraphView(QMainWindow):
             gradient.setColorAt(0, QColor(255, 102, 102))
             gradient.setColorAt(1, QColor(153, 0, 0))
 
-            # Styles
+            # styles
             pen = QPen(Qt.black)
             pen.setWidth(1)
             brush = QBrush(gradient)
@@ -41,6 +42,17 @@ class GraphView(QMainWindow):
             ellipse.setBrush(brush)
 
             self.scene.addItem(ellipse)
+
+            # number
+            text = QGraphicsTextItem(str(number))
+            text.setDefaultTextColor(Qt.white)
+            text.setFont(text.font())
+            text.setZValue(1)
+            text_width = text.boundingRect().width()
+            text_height = text.boundingRect().height()
+            text.setPos(node.x - text_width / 2, node.y - text_height / 2)
+
+            self.scene.addItem(text)
 
 
     def apply_algorithms_events(self):
