@@ -14,6 +14,7 @@ if __name__ == '__main__':
     model = Graph()
     view = GraphView()
     controller = GraphController(model, view)
+
     view.controller = controller
     model.view = view
 

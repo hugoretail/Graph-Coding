@@ -43,7 +43,6 @@ class Graph(IGraph):
         self.selected_nodes = [(n, count - 1) for n, count in self.selected_nodes if n != node]
         self.selected_nodes_counter = len(self.selected_nodes)
         node.selected = False
-
         self.selected_nodes = [(n, i + 1) for i, (n, _) in enumerate(self.selected_nodes)]
 
     def set_nodes(self, nodes: List[Node]) -> None:
@@ -64,6 +63,8 @@ class Graph(IGraph):
         for e in self.edges:
             if e.node1 == node1 and e.node2 == node2:
                 return e
+            elif e.node1 == node2 and e.node2 == node1:
+                return e
 
     def get_edge_from_positions(self, x1, y1, x2, y2) -> Edge:
         for e in self.edges:
@@ -75,6 +76,10 @@ class Graph(IGraph):
         self.load_nodes_from_file(path)
         self.load_edges_from_file(path)
         self.reset_selected_nodes()
+        self.update_view()
+
+    def update_view(self):
+        self.view.update_graph(self.nodes, self.edges)
 
     def load_nodes_from_file(self, file):
         nodes = []

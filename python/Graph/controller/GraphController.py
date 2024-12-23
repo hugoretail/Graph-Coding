@@ -8,7 +8,6 @@ class GraphController:
 
     def load_graph(self, path):
         self.model.load_graph(path)
-        self.update_view()
 
     def update_view(self):
         self.view.update_graph(self.model.nodes, self.model.edges)
@@ -38,6 +37,7 @@ class GraphController:
     def node_clicked_event(self, node):
         self.model.select_node(node)
         self.update_view()
+        self.view.update_node_styles(self.model.selected_nodes)
 
         if self.model.selected_nodes_counter == 1:
             self.view.toggle_algorithms_menu(["BFS", "DFS"])
@@ -46,4 +46,3 @@ class GraphController:
         else:
             self.view.disable_algorithms_menu()
 
-        self.view.update_node_styles(self.model.selected_nodes)
