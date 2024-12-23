@@ -28,3 +28,11 @@ class GraphController:
             "Prim": self.model.prim(),
             "Kruskal": self.model.kruskal()
         }
+
+    def graph_chosen_event(self, path):
+        self.view.set_selected_graph(path)
+        self.load_graph(path)
+
+    def node_clicked_event(self, node):
+        """TODO"""
+        pass

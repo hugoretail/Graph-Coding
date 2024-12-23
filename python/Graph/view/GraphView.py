@@ -1,4 +1,4 @@
-from PyQt5.QtWidgets import QMainWindow, QGraphicsScene, QGraphicsView, QAction, QFileDialog
+from PyQt5.QtWidgets import QMainWindow, QGraphicsScene, QGraphicsView, QAction, QFileDialog, QGraphicsEllipseItem
 from PyQt5.QtGui import QPen, QBrush, QColor, QLinearGradient
 from PyQt5.QtCore import Qt
 from .design_view import Ui_MainWindow
@@ -27,6 +27,7 @@ class GraphView(QMainWindow):
 
     def apply_algorithms_events(self):
         for action in self.ui.menuSearch_Algorithms.actions():
+            action.setDisabled(True) # not clickable
             action.triggered.connect(lambda checked, alg=action.text(): self.controller.apply_algorithm(alg))
 
     def populate_default_graphs_menu(self):
@@ -37,22 +38,19 @@ class GraphView(QMainWindow):
                 if file_name.endswith(".txt"):
                     filepath = os.path.join(graph_folder, file_name)
                     action = QAction(file_name, self)
-                    action.triggered.connect(lambda checked, path=filepath: self.set_selected_graph(path))
+                    action.triggered.connect(lambda checked, path=filepath: self.controller.graph_chosen_event(path))
                     self.ui.menuDefault_Graphs.addAction(action)
 
     def open_file_dialog(self):
         file_path, _ = QFileDialog.getOpenFileName(self, "Open file", "", "Text Files (*.txt);; All Files (*)")
 
         if file_path:
-            self.set_selected_graph(file_path)
+            self.controller.graph_chosen_event(file_path)
 
     def set_selected_graph(self, path):
         self.selected_graph_path = path
-
-        if self.controller:
-            self.controller.load_graph(path)
-            self.ui.label.setText(f"Selected graph: {os.path.basename(path)}")
-            print(f"Graph selected: {path}")
+        self.ui.label.setText(f"Selected graph: {os.path.basename(path)}")
+        print(f"Graph selected: {path}")
 
     def update_graph(self, nodes, edges):
         self.scene.clear()
@@ -69,13 +67,20 @@ class GraphView(QMainWindow):
 
         for node in nodes:
             x, y = node.x, node.y
+
+            # styles
             gradient = QLinearGradient(x,y,x+10,y+10)
             gradient.setColorAt(0, QColor(135,206,250)) # light blue
             gradient.setColorAt(1,QColor(0,90,180)) # dark blue
             pen = QPen(Qt.black)
             pen.setWidth(1)
             brush = QBrush(gradient)
-            self.scene.addEllipse(x-5,y-5,10,10,pen,brush)
 
-
+            # events
+            ellipse = QGraphicsEllipseItem(x-5,y-5,10,10)
+            ellipse.setPen(pen)
+            ellipse.setBrush(brush)
+            ellipse.setFlags(QGraphicsEllipseItem.ItemIsSelectable | QGraphicsEllipseItem.ItemIsFocusable)
+            ellipse.mousePressEvent = lambda event, n= node: self.controller.node_clicked_event(n)
+            self.scene.addItem(ellipse)
 
