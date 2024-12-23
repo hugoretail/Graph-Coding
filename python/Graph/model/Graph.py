@@ -22,7 +22,7 @@ class Graph(IGraph):
 
         if len(self.selected_nodes) >= 2:
             oldest_node, _ = min(self.selected_nodes, key=lambda x:x[1])
-            self.selected_nodes = [(n,c) for n, c in self.selected_nodes if n != oldest_node]
+            self.selected_nodes = [(n,c - 1) for n, c in self.selected_nodes if n != oldest_node]
             oldest_node.selected = False
 
         self.selected_nodes.append((node, len(self.selected_nodes) + 1))
@@ -30,7 +30,7 @@ class Graph(IGraph):
         node.selected = True
 
     def deselect_node(self, node : Node):
-        self.selected_nodes = [(n, count) for n, count in self.selected_nodes if n != node]
+        self.selected_nodes = [(n, count - 1) for n, count in self.selected_nodes if n != node]
         self.selected_nodes_counter = len(self.selected_nodes)
         node.selected = False
 
