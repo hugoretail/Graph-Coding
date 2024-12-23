@@ -3,6 +3,7 @@ from .Node import Node
 from .Edge import Edge
 from typing import List
 from queue import Queue
+from collections import deque
 
 class Graph(IGraph):
     def __init__(self):
@@ -23,6 +24,9 @@ class Graph(IGraph):
     def reset_selected_nodes(self):
         self.selected_nodes = []
         self.selected_nodes_counter = 0
+
+    def reset_algorithms_button(self):
+        self.view.disable_algorithms_menu_button()
 
     def select_node(self, node : Node):
         for n, count in self.selected_nodes:
@@ -136,7 +140,7 @@ class Graph(IGraph):
         start.mark = True
         while not f.empty():
             s = f.get()
-            # add nodes
+            # add node here
             if s not in nodes:
                 nodes.append(s)
 
@@ -144,15 +148,44 @@ class Graph(IGraph):
                 if t.mark is False:
                     f.put(t)
                     t.mark = True
-                    edges.append(self.get_edge_from_nodes(s,t))
+                    # add edge here
+                    edge = self.get_edge_from_nodes(s, t)
+                    if edge not in edges:
+                        edges.append(edge)
 
         self.set_nodes(nodes)
         self.set_edges(edges)
         self.view.update_graph(nodes,edges)
         self.reset_selected_nodes()
+        self.reset_algorithms_button()
 
     def dfs(self):
-        pass
+        start = self.selected_nodes[0][0]
+        nodes, edges = [], []
+
+        p = deque()
+        p.append(start)
+        while len(p) > 0:
+            s = p.pop()
+            if s.mark is False:
+                s.mark = True
+                # add node here
+                if s not in nodes:
+                    nodes.append(s)
+
+                for t in self.get_neighbors(s):
+                    if t.mark is False:
+                        p.append(t)
+                        # add edge here
+                        edge = self.get_edge_from_nodes(s, t)
+                        if edge not in edges:
+                            edges.append(edge)
+
+        self.set_nodes(nodes)
+        self.set_edges(edges)
+        self.view.update_graph(nodes,edges)
+        self.reset_selected_nodes()
+        self.reset_algorithms_button()
 
     def ucs(self):
         pass

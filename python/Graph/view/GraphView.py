@@ -70,6 +70,12 @@ class GraphView(QMainWindow):
         for action in self.ui.menuSearch_Algorithms.actions():
             action.setDisabled(True) # not clickable
 
+    def disable_algorithms_menu_button(self):
+        self.ui.menuSearch_Algorithms.setDisabled(True)
+
+    def enable_algorithms_menu_button(self):
+        self.ui.menuSearch_Algorithms.setEnabled(True)
+
     def apply_algorithms_events(self):
         for action in self.ui.menuSearch_Algorithms.actions():
             action.setDisabled(True) # not clickable

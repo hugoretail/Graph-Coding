@@ -32,6 +32,8 @@ class GraphController:
 
     def graph_chosen_event(self, path):
         self.view.set_selected_graph(path)
+        self.view.enable_algorithms_menu_button()
+        self.view.disable_algorithms_menu()
         self.load_graph(path)
 
     def node_clicked_event(self, node):
