@@ -1,3 +1,6 @@
+from PyQt5.QtGui import QPen, QBrush, QColor, QLinearGradient
+from PyQt5.QtCore import Qt
+
 class GraphController:
     def __init__(self, model, view):
         self.model = model
@@ -6,7 +9,7 @@ class GraphController:
     def load_graph(self, filename):
         self.model.load_nodes_from_file(filename)
         self.model.load_edges_from_file(filename)
-
+        self.model.reset_selected_nodes()
         self.update_view()
 
     def update_view(self):
@@ -34,5 +37,6 @@ class GraphController:
         self.load_graph(path)
 
     def node_clicked_event(self, node):
-        """TODO"""
-        pass
+        self.model.select_node(node)
+        self.update_view()
+        self.view.update_node_styles(self.model.selected_nodes)

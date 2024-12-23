@@ -8,6 +8,33 @@ class Graph(IGraph):
         self.nodes = []
         self.edges = []
         self.selected_nodes = []
+        self.selected_nodes_counter = 0
+
+    def reset_selected_nodes(self):
+        self.selected_nodes = []
+        self.selected_nodes_counter = 0
+
+    def select_node(self, node : Node):
+        for n, count in self.selected_nodes:
+            if n == node:
+                self.deselect_node(node)
+                return
+
+        if len(self.selected_nodes) >= 2:
+            oldest_node, _ = min(self.selected_nodes, key=lambda x:x[1])
+            self.selected_nodes = [(n,c) for n, c in self.selected_nodes if n != oldest_node]
+            oldest_node.selected = False
+
+        self.selected_nodes.append((node, len(self.selected_nodes) + 1))
+        self.selected_nodes_counter = len(self.selected_nodes)
+        node.selected = True
+
+    def deselect_node(self, node : Node):
+        self.selected_nodes = [(n, count) for n, count in self.selected_nodes if n != node]
+        self.selected_nodes_counter = len(self.selected_nodes)
+        node.selected = False
+
+        self.selected_nodes = [(n, i + 1) for i, (n, _) in enumerate(self.selected_nodes)]
 
     def set_nodes(self, nodes: List[Node]) -> None:
         self.nodes = nodes
@@ -17,12 +44,6 @@ class Graph(IGraph):
         for e in edges:
             e.node1.add_edge(e)
             e.node2.add_edge(e)
-
-    def add_selected_node(self, node : Node):
-        self.selected_nodes.append(node)
-
-    def remove_selected_node(self, node : Node):
-        self.selected_nodes.remove(node)
 
     def get_node_from_position(self, x, y) -> Node:
         for n in self.nodes:

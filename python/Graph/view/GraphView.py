@@ -25,6 +25,24 @@ class GraphView(QMainWindow):
 
         self.apply_algorithms_events()
 
+    def update_node_styles(self, clicked_nodes):
+        for node, number in clicked_nodes:
+            gradient = QLinearGradient(node.x, node.y, node.x + 10, node.y + 10)
+            gradient.setColorAt(0, QColor(255, 102, 102))
+            gradient.setColorAt(1, QColor(153, 0, 0))
+
+            # Styles
+            pen = QPen(Qt.black)
+            pen.setWidth(1)
+            brush = QBrush(gradient)
+
+            ellipse = QGraphicsEllipseItem(node.x - 5, node.y - 5, 10, 10)
+            ellipse.setPen(pen)
+            ellipse.setBrush(brush)
+
+            self.scene.addItem(ellipse)
+
+
     def apply_algorithms_events(self):
         for action in self.ui.menuSearch_Algorithms.actions():
             action.setDisabled(True) # not clickable
@@ -82,5 +100,6 @@ class GraphView(QMainWindow):
             ellipse.setBrush(brush)
             ellipse.setFlags(QGraphicsEllipseItem.ItemIsSelectable | QGraphicsEllipseItem.ItemIsFocusable)
             ellipse.mousePressEvent = lambda event, n= node: self.controller.node_clicked_event(n)
+
             self.scene.addItem(ellipse)
 
