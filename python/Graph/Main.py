@@ -11,10 +11,11 @@ if __name__ == '__main__':
 
     app = QApplication(sys.argv)
 
-    graph = Graph()
+    model = Graph()
     view = GraphView()
-    controller = GraphController(graph, view)
+    controller = GraphController(model, view)
     view.controller = controller
+    model.view = view
 
     view.show()
 

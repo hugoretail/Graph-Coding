@@ -22,6 +22,6 @@ class IGraph(ABC):
         pass
 
     @abstractmethod
-    def get_neighbours(self, node):
+    def get_neighbors(self, node):
         """TODO"""
         pass

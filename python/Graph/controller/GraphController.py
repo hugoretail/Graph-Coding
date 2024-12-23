@@ -6,31 +6,30 @@ class GraphController:
         self.model = model
         self.view = view
 
-    def load_graph(self, filename):
-        self.model.load_nodes_from_file(filename)
-        self.model.load_edges_from_file(filename)
-        self.model.reset_selected_nodes()
+    def load_graph(self, path):
+        self.model.load_graph(path)
         self.update_view()
 
     def update_view(self):
         self.view.update_graph(self.model.nodes, self.model.edges)
 
     def apply_algorithm(self, algorithm : str):
-        if len(self.model.selected_nodes) != 2:
-            print("Error! Please select 2 nodes to apply the algorithm.")
-
         switch = {
-            "BFS": self.model.bfs(),
-            "DFS": self.model.dfs(),
-            "UCS": self.model.ucs(),
-            "Greedy Best-First": self.model.greedy_best_first(),
-            "A*": self.model.a_star(),
-            "Dijkstra": self.model.dijkstra(),
-            "Bellman-Ford": self.model.bellman_ford(),
-            "Floyd-Warshall": self.model.floyd_warshall(),
-            "Prim": self.model.prim(),
-            "Kruskal": self.model.kruskal()
+            "BFS": self.model.bfs,
+            "DFS": self.model.dfs,
+            "UCS": self.model.ucs,
+            "Greedy Best-First": self.model.greedy_best_first,
+            "A*": self.model.a_star,
+            "Dijkstra": self.model.dijkstra,
+            "Bellman-Ford": self.model.bellman_ford,
+            "Floyd-Warshall": self.model.floyd_warshall,
+            "Prim": self.model.prim,
+            "Kruskal": self.model.kruskal
         }
+        try:
+            return switch[algorithm]()
+        except KeyError:
+            print(f"Algorithm '{algorithm}' not found.")
 
     def graph_chosen_event(self, path):
         self.view.set_selected_graph(path)
@@ -39,4 +38,12 @@ class GraphController:
     def node_clicked_event(self, node):
         self.model.select_node(node)
         self.update_view()
+
+        if self.model.selected_nodes_counter == 1:
+            self.view.toggle_algorithms_menu(["BFS", "DFS"])
+        elif self.model.selected_nodes_counter == 2:
+            self.view.toggle_algorithms_menu(["UCS"])
+        else:
+            self.view.disable_algorithms_menu()
+
         self.view.update_node_styles(self.model.selected_nodes)

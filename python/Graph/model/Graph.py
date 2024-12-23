@@ -2,13 +2,23 @@ from .IGraph import IGraph
 from .Node import Node
 from .Edge import Edge
 from typing import List
+from queue import Queue
 
 class Graph(IGraph):
     def __init__(self):
+        self.view = None
+        self.path = ""
         self.nodes = []
         self.edges = []
         self.selected_nodes = []
         self.selected_nodes_counter = 0
+
+    def get_neighbors(self, node : Node):
+        neighbors = []
+        for e in node.edges:
+            opposite_node = e.get_opposite(node)
+            neighbors.append(opposite_node)
+        return neighbors
 
     def reset_selected_nodes(self):
         self.selected_nodes = []
@@ -50,13 +60,21 @@ class Graph(IGraph):
             if n.x == x and n.y == y :
                 return n
 
-    def get_neighbours(self, node : Node):
-        return node.edges
+    def get_edge_from_nodes(self, node1, node2) -> Edge:
+        for e in self.edges:
+            if e.node1 == node1 and e.node2 == node2:
+                return e
 
     def get_edge_from_positions(self, x1, y1, x2, y2) -> Edge:
         for e in self.edges:
             if e.node1.x == x1 and e.node1.y == y1 and e.node2.x == x2 and e.node2.y == y2:
                 return e
+
+    def load_graph(self, path):
+        self.path = path
+        self.load_nodes_from_file(path)
+        self.load_edges_from_file(path)
+        self.reset_selected_nodes()
 
     def load_nodes_from_file(self, file):
         nodes = []
@@ -105,7 +123,28 @@ class Graph(IGraph):
         self.set_edges(edges_list)
 
     def bfs(self):
-        pass
+        start = self.selected_nodes[0][0]
+        nodes, edges = [], []
+
+        f = Queue()
+        f.put(start)
+        start.mark = True
+        while not f.empty():
+            s = f.get()
+            # add nodes
+            if s not in nodes:
+                nodes.append(s)
+
+            for t in self.get_neighbors(s):
+                if t.mark is False:
+                    f.put(t)
+                    t.mark = True
+                    edges.append(self.get_edge_from_nodes(s,t))
+
+        self.set_nodes(nodes)
+        self.set_edges(edges)
+        self.view.update_graph(nodes,edges)
+        self.reset_selected_nodes()
 
     def dfs(self):
         pass

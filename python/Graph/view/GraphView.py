@@ -3,6 +3,7 @@ from PyQt5.QtWidgets import QMainWindow, QGraphicsScene, QGraphicsView, QAction,
 from PyQt5.QtGui import QPen, QBrush, QColor, QLinearGradient
 from PyQt5.QtCore import Qt
 from .design_view import Ui_MainWindow
+from typing import List
 import os
 
 class GraphView(QMainWindow):
@@ -54,6 +55,20 @@ class GraphView(QMainWindow):
 
             self.scene.addItem(text)
 
+    def toggle_algorithms_menu(self, algorithms: List[str]):
+        for action in self.ui.menuSearch_Algorithms.actions():
+            if action.text() in algorithms:
+                action.setEnabled(True)
+            else:
+                action.setDisabled(True)
+
+    def enable_algorithms_menu(self):
+        for action in self.ui.menuSearch_Algorithms.actions():
+            action.setEnabled(True) # clickable
+
+    def disable_algorithms_menu(self):
+        for action in self.ui.menuSearch_Algorithms.actions():
+            action.setDisabled(True) # not clickable
 
     def apply_algorithms_events(self):
         for action in self.ui.menuSearch_Algorithms.actions():
