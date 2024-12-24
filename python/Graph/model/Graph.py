@@ -1,3 +1,5 @@
+import heapq
+
 from .IGraph import IGraph
 from .Node import Node
 from .Edge import Edge
@@ -137,6 +139,14 @@ class Graph(IGraph):
 
         self.set_edges(edges_list)
 
+    def apply_algorithm_result(self, nodes, edges):
+        self.set_nodes(nodes)
+        self.set_edges(edges)
+        self.view.update_graph(nodes, edges)
+        self.reset_selected_nodes()
+        self.reset_algorithms_button()
+        self.view.enable_reset_button()
+
     def bfs(self):
         start = self.selected_nodes[0][0]
         nodes, edges = [], []
@@ -159,12 +169,8 @@ class Graph(IGraph):
                     if edge not in edges:
                         edges.append(edge)
 
-        self.set_nodes(nodes)
-        self.set_edges(edges)
-        self.view.update_graph(nodes,edges)
-        self.reset_selected_nodes()
-        self.reset_algorithms_button()
-        self.view.enable_reset_button()
+        self.apply_algorithm_result(nodes, edges)
+
 
     def dfs(self):
         start = self.selected_nodes[0][0]
@@ -188,15 +194,50 @@ class Graph(IGraph):
                         if edge not in edges:
                             edges.append(edge)
 
-        self.set_nodes(nodes)
-        self.set_edges(edges)
-        self.view.update_graph(nodes,edges)
-        self.reset_selected_nodes()
-        self.reset_algorithms_button()
-        self.view.enable_reset_button()
+        self.apply_algorithm_result(nodes, edges)
 
     def ucs(self):
-        pass
+        start = None
+        end = None
+        for n, p in self.selected_nodes:
+            if p == 1:
+                start = n
+            elif p == 2:
+                end = n
+
+        priority_queue = [(0, start)]
+        visited = {start: (0, None)}
+        reached = False
+
+        while priority_queue:
+            current_cost, current_node = heapq.heappop(priority_queue)
+            if current_node == end:
+                reached = True
+                break
+
+            for edge in current_node.edges:
+                cost = edge.weight
+                neighbor = edge.get_opposite(current_node)
+                total_cost = current_cost + cost
+                if neighbor not in visited or total_cost < visited[neighbor][0]:
+                    visited[neighbor] = (total_cost, current_node)
+                    heapq.heappush(priority_queue, (total_cost, neighbor))
+
+        if reached:
+            nodes_taken = []
+            edges_taken = []
+            current = end
+            nodes_taken.append(current)
+            current = visited[current][1]
+            i = 0
+            while current is not None:
+                nodes_taken.append(current)
+                edges_taken.append(self.get_edge_from_nodes(current, nodes_taken[i]))
+                current = visited[current][1]
+                i += 1
+            nodes_taken.reverse()
+            self.apply_algorithm_result(nodes_taken, edges_taken)
+
 
     def greedy_best_first(self):
         pass

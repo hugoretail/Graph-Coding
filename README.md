@@ -10,6 +10,7 @@
     - [DFS (Depth-First Search)](#dfs-depth-first-search)
         - [Requirements](#requirements-1)
         - [Pseudo Code](#pseudo-code-1)
+    - [UCS (Uniform Cost Search)](#ucs-uniform-cost-search)
 
 ---
 
@@ -21,9 +22,9 @@ A Python application for graph-related operations and algorithm implementations.
 
 ## Todo
 
+- [ ] Keep the display of the selected node(s) after applying an algorithm
 - [ ] Add documentation (interfaces, usage, etc.)
 - [ ] Implement all the algorithms
-  - [ ] UCS
   - [ ] Greedy Best-First
   - [ ] A*
   - [ ] Dijkstra
@@ -56,7 +57,9 @@ BreadthFirstSearch(Graph G, Vertex s):
                 q.enqueue(t);
                 mark(t);
 ```
-Source : https://en.wikipedia.org/wiki/Breadth-first_search
+Source: https://en.wikipedia.org/wiki/Breadth-first_search
+
+---
 
 ### DFS (Depth-First Search)
 
@@ -78,7 +81,52 @@ DepthFirstSearchIterative(Graph G, Vertex s):
                 if t is not marked:
                     stack.push(t)
 ```
-Source : Adapted from https://en.wikipedia.org/wiki/Depth-first_search
+Adapted from: https://en.wikipedia.org/wiki/Depth-first_search
+
+---
+
+### UCS (Uniform Cost Search)
+
+#### Requirements
+- A graph with weighted edges.
+- A defined starting node and goal node.
+
+#### Pseudo Code
+
+```plaintext
+UniformCostSearch(Graph G, Vertex start, Vertex goal):
+    priorityQueue = CreateMinHeap();
+    priorityQueue.insert((0, start)); // (cost, vertex)
+    visited = CreateDictionary();
+    visited[start] = (0, None); // (cost, parent)
+
+    while priorityQueue is not empty:
+        (currentCost, currentNode) = priorityQueue.removeMin();
+
+        if currentNode == goal:
+            return (currentCost, ReconstructPath(visited, start, goal));
+
+        for each (neighbor, edgeCost) in G[currentNode]:
+            totalCost = currentCost + edgeCost;
+
+            if neighbor not in visited OR totalCost < visited[neighbor][0]:
+                visited[neighbor] = (totalCost, currentNode);
+                priorityQueue.insert((totalCost, neighbor));
+
+    return None; // Goal is not reachable
+
+ReconstructPath(Dictionary visited, Vertex start, Vertex goal):
+    path = CreateEmptyList();
+    current = goal;
+
+    while current is not None:
+        path.append(current);
+        current = visited[current][1];
+
+    path.reverse();
+    return path;
+```
+Adaptated from: https://www.geeksforgeeks.org/uniform-cost-search-ucs-in-ai/
 
 ---
 
