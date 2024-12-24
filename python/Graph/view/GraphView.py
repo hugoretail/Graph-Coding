@@ -1,5 +1,5 @@
 from PyQt5.QtWidgets import QMainWindow, QGraphicsScene, QGraphicsView, QAction, QFileDialog, QGraphicsEllipseItem, \
-    QGraphicsTextItem
+    QGraphicsTextItem, QGraphicsDropShadowEffect
 from PyQt5.QtGui import QPen, QBrush, QColor, QLinearGradient
 from PyQt5.QtCore import Qt
 from .design_view import Ui_MainWindow
@@ -30,6 +30,51 @@ class GraphView(QMainWindow):
         self.initialise_reset_buttons()
 
         self.ui.actionEverything.setDisabled(True)
+
+        self.setStyleSheet("""
+            QMainWindow {
+                background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, 
+                                                  stop:0 rgba(70, 130, 180, 255), 
+                                                  stop:1 rgba(240, 248, 255, 255));
+            }
+            QMenuBar {
+                background-color: rgba(245, 245, 245, 0.8);
+                border: 1px solid lightgray;
+            }
+            QMenu {
+                background-color: #f0f0f0;
+            }
+            QMenu::item:selected {
+                background-color: #87CEFA;
+            }
+            QMenu::item:disabled {
+                color: gray; 
+                background-color: #f0f0f0; 
+            }
+            QLabel {
+                color: white;
+                font: bold 16px;
+                padding: 5px;
+            }
+            QPushButton, QToolButton {
+                color: white;
+                background-color: #4682B4;
+                border: 1px solid #5F9EA0;
+                border-radius: 5px;
+                padding: 5px;
+            }
+            QPushButton:hover {
+                background-color: #5F9EA0;
+            }
+            QPushButton:disabled {
+                color: gray; /* Texte grisé pour les boutons désactivés */
+                background-color: #d3d3d3; /* Fond légèrement grisé */
+                border: 1px solid #a9a9a9; /* Bordure grisée */
+            }
+            QGraphicsView {
+                border: none;
+            }
+        """)
 
     def initialise_reset_buttons(self):
         self.ui.actionCurrent_Graph.triggered.connect(lambda checked: self.controller.reset_current_graph())
@@ -122,7 +167,7 @@ class GraphView(QMainWindow):
         self.scene.clear()
 
         edge_pen = QPen(QColor(50,50,50)) # dark gray
-        edge_pen.setWidth(1)
+        edge_pen.setWidth(2)
 
         for edge in edges:
             self.scene.addLine(edge.node1.x,
@@ -134,20 +179,28 @@ class GraphView(QMainWindow):
         for node in nodes:
             x, y = node.x, node.y
 
-            # styles
-            gradient = QLinearGradient(x,y,x+10,y+10)
-            gradient.setColorAt(0, QColor(135,206,250)) # light blue
-            gradient.setColorAt(1,QColor(0,90,180)) # dark blue
+            # Gradient for the node color
+            gradient = QLinearGradient(x, y, x + 10, y + 10)
+            gradient.setColorAt(0, QColor(135, 206, 250))  # light blue
+            gradient.setColorAt(1, QColor(0, 90, 180))  # dark blue
             pen = QPen(Qt.black)
             pen.setWidth(1)
             brush = QBrush(gradient)
 
-            # events
-            ellipse = QGraphicsEllipseItem(x-5,y-5,10,10)
+            # Creating the node with shadow
+            ellipse = QGraphicsEllipseItem(x - 5, y - 5, 10, 10)
             ellipse.setPen(pen)
             ellipse.setBrush(brush)
             ellipse.setFlags(QGraphicsEllipseItem.ItemIsSelectable | QGraphicsEllipseItem.ItemIsFocusable)
-            ellipse.mousePressEvent = lambda event, n= node: self.controller.node_clicked_event(n)
 
+            # Add shadow effect
+            shadow = QGraphicsDropShadowEffect()
+            shadow.setBlurRadius(10)
+            shadow.setColor(QColor(0, 0, 0, 120))
+            shadow.setOffset(3, 3)
+            ellipse.setGraphicsEffect(shadow)
+
+            # Events
+            ellipse.mousePressEvent = lambda event, n=node: self.controller.node_clicked_event(n)
             self.scene.addItem(ellipse)
 
