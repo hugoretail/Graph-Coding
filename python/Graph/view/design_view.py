@@ -32,6 +32,8 @@ class Ui_MainWindow(object):
         self.menuDefault_Graphs.setObjectName("menuDefault_Graphs")
         self.menuSearch_Algorithms = QtWidgets.QMenu(self.menubar)
         self.menuSearch_Algorithms.setObjectName("menuSearch_Algorithms")
+        self.menuReset = QtWidgets.QMenu(self.menubar)
+        self.menuReset.setObjectName("menuReset")
         MainWindow.setMenuBar(self.menubar)
         self.statusbar = QtWidgets.QStatusBar(MainWindow)
         self.statusbar.setObjectName("statusbar")
@@ -60,6 +62,10 @@ class Ui_MainWindow(object):
         self.actionPrim.setObjectName("actionPrim")
         self.actionKruskal = QtWidgets.QAction(MainWindow)
         self.actionKruskal.setObjectName("actionKruskal")
+        self.actionEverything = QtWidgets.QAction(MainWindow)
+        self.actionEverything.setObjectName("actionEverything")
+        self.actionCurrent_Graph = QtWidgets.QAction(MainWindow)
+        self.actionCurrent_Graph.setObjectName("actionCurrent_Graph")
         self.menuLoad.addAction(self.menuDefault_Graphs.menuAction())
         self.menuLoad.addAction(self.actionLocal_File)
         self.menuSearch_Algorithms.addAction(self.actionBFS)
@@ -75,8 +81,11 @@ class Ui_MainWindow(object):
         self.menuSearch_Algorithms.addSeparator()
         self.menuSearch_Algorithms.addAction(self.actionPrim)
         self.menuSearch_Algorithms.addAction(self.actionKruskal)
+        self.menuReset.addAction(self.actionEverything)
+        self.menuReset.addAction(self.actionCurrent_Graph)
         self.menubar.addAction(self.menuLoad.menuAction())
         self.menubar.addAction(self.menuSearch_Algorithms.menuAction())
+        self.menubar.addAction(self.menuReset.menuAction())
 
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
@@ -88,6 +97,7 @@ class Ui_MainWindow(object):
         self.menuLoad.setTitle(_translate("MainWindow", "Load"))
         self.menuDefault_Graphs.setTitle(_translate("MainWindow", "Default Graphs"))
         self.menuSearch_Algorithms.setTitle(_translate("MainWindow", "Search Algorithms"))
+        self.menuReset.setTitle(_translate("MainWindow", "Reset"))
         self.actionLocal_File.setText(_translate("MainWindow", "Local File"))
         self.actionaa.setText(_translate("MainWindow", "aa"))
         self.actionBFS.setText(_translate("MainWindow", "BFS"))
@@ -100,6 +110,8 @@ class Ui_MainWindow(object):
         self.actionFloyd_Warshall.setText(_translate("MainWindow", "Floyd-Warshall"))
         self.actionPrim.setText(_translate("MainWindow", "Prim"))
         self.actionKruskal.setText(_translate("MainWindow", "Kruskal"))
+        self.actionEverything.setText(_translate("MainWindow", "Everything"))
+        self.actionCurrent_Graph.setText(_translate("MainWindow", "Current Graph"))
 
 
 if __name__ == "__main__":

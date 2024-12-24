@@ -82,6 +82,12 @@ class Graph(IGraph):
         self.reset_selected_nodes()
         self.update_view()
 
+    def reload_graph(self):
+        self.load_nodes_from_file(self.path)
+        self.load_edges_from_file(self.path)
+        self.reset_selected_nodes()
+        self.update_view()
+
     def update_view(self):
         self.view.update_graph(self.nodes, self.edges)
 
@@ -158,6 +164,7 @@ class Graph(IGraph):
         self.view.update_graph(nodes,edges)
         self.reset_selected_nodes()
         self.reset_algorithms_button()
+        self.view.enable_reset_button()
 
     def dfs(self):
         start = self.selected_nodes[0][0]
@@ -186,6 +193,7 @@ class Graph(IGraph):
         self.view.update_graph(nodes,edges)
         self.reset_selected_nodes()
         self.reset_algorithms_button()
+        self.view.enable_reset_button()
 
     def ucs(self):
         pass

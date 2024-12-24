@@ -63,8 +63,16 @@
     <addaction name="actionPrim"/>
     <addaction name="actionKruskal"/>
    </widget>
+   <widget class="QMenu" name="menuReset">
+    <property name="title">
+     <string>Reset</string>
+    </property>
+    <addaction name="actionEverything"/>
+    <addaction name="actionCurrent_Graph"/>
+   </widget>
    <addaction name="menuLoad"/>
    <addaction name="menuSearch_Algorithms"/>
+   <addaction name="menuReset"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
   <action name="actionLocal_File">
@@ -125,6 +133,16 @@
   <action name="actionKruskal">
    <property name="text">
     <string>Kruskal</string>
+   </property>
+  </action>
+  <action name="actionEverything">
+   <property name="text">
+    <string>Everything</string>
+   </property>
+  </action>
+  <action name="actionCurrent_Graph">
+   <property name="text">
+    <string>Current Graph</string>
    </property>
   </action>
  </widget>

@@ -23,8 +23,6 @@ A Python application for graph-related operations and algorithm implementations.
 
 - [ ] Add documentation (interfaces, usage, etc.)
 - [ ] Implement all the algorithms
-  - [X] BFS
-  - [ ] DFS
   - [ ] UCS
   - [ ] Greedy Best-First
   - [ ] A*
@@ -33,7 +31,6 @@ A Python application for graph-related operations and algorithm implementations.
   - [ ] Floyd-Warshall
   - [ ] Prim
   - [ ] Kruskal
-- [ ] Add a button to reset (restore) the current graph to its initial state.
 
 ---
 

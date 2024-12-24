@@ -27,6 +27,21 @@ class GraphView(QMainWindow):
 
         self.apply_algorithms_events()
 
+        self.initialise_reset_buttons()
+
+        self.ui.actionEverything.setDisabled(True)
+
+    def initialise_reset_buttons(self):
+        self.ui.actionCurrent_Graph.triggered.connect(lambda checked: self.controller.reset_current_graph())
+        self.ui.actionEverything.triggered.connect(lambda checked: self.controller.reset_everything())
+        self.ui.menuReset.setDisabled(True)
+
+    def enable_reset_button(self):
+        self.ui.menuReset.setEnabled(True)
+
+    def disable_reset_button(self):
+        self.ui.menuReset.setDisabled(True)
+
     def update_node_styles(self, clicked_nodes):
         for node, number in clicked_nodes:
             gradient = QLinearGradient(node.x, node.y, node.x + 10, node.y + 10)

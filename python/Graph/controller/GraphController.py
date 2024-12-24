@@ -34,6 +34,7 @@ class GraphController:
         self.view.set_selected_graph(path)
         self.view.enable_algorithms_menu_button()
         self.view.disable_algorithms_menu()
+        self.view.disable_reset_button()
         self.load_graph(path)
 
     def node_clicked_event(self, node):
@@ -48,3 +49,12 @@ class GraphController:
         else:
             self.view.disable_algorithms_menu()
 
+    def reset_current_graph(self):
+        self.model.reload_graph()
+        self.view.disable_reset_button()
+        self.view.enable_algorithms_menu_button()
+        self.view.disable_algorithms_menu()
+
+    def reset_everything(self):
+        """TODO"""
+        pass
