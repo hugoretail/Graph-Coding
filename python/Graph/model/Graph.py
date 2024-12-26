@@ -147,6 +147,26 @@ class Graph(IGraph):
         self.reset_algorithms_button()
         self.view.enable_reset_button()
 
+    def get_start_end_nodes(self):
+        start = None
+        end = None
+        for n, p in self.selected_nodes:
+            if p == 1:
+                start = n
+            elif p == 2:
+                end = n
+        return start, end
+
+    def get_start_node(self):
+        for n, p in self.selected_nodes:
+            if p == 1:
+                return n
+
+    def get_end_node(self):
+        for n, p in self.selected_nodes:
+            if p == 2:
+                return n
+
     def bfs(self):
         start = self.selected_nodes[0][0]
         nodes, edges = [], []
@@ -197,13 +217,7 @@ class Graph(IGraph):
         self.apply_algorithm_result(nodes, edges)
 
     def ucs(self):
-        start = None
-        end = None
-        for n, p in self.selected_nodes:
-            if p == 1:
-                start = n
-            elif p == 2:
-                end = n
+        start, end = self.get_start_end_nodes()
 
         priority_queue = [(0, start)]
         visited = {start: (0, None)}
@@ -240,7 +254,34 @@ class Graph(IGraph):
 
 
     def greedy_best_first(self):
-        pass
+        """NOT WORKING"""
+        start, end = self.get_start_end_nodes()
+
+        visited = set()
+        priority_queue = []
+        heapq.heappush(priority_queue, (start.heuristic(end), start))
+
+        nodes_taken = []
+        edges_taken = []
+
+        while priority_queue:
+            _, current_node = heapq.heappop(priority_queue)
+            if current_node == end:
+                nodes_taken.append(current_node)
+                break
+
+            if current_node not in visited:
+                visited.add(current_node)
+                nodes_taken.append(current_node)
+                for neighbor in self.get_neighbors(current_node):
+                    if neighbor not in visited and neighbor != end:
+                        heapq.heappush(priority_queue,
+                                       (neighbor.heuristic(end), neighbor))
+                        edge = self.get_edge_from_nodes(current_node, neighbor)
+                        if edge not in edges_taken and edge:
+                            edges_taken.append(edge)
+
+            self.apply_algorithm_result(nodes_taken, edges_taken)
 
     def a_star(self):
         pass

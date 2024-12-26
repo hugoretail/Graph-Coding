@@ -1,4 +1,5 @@
 from .INode import INode
+from math import sqrt
 
 class Node(INode):
     def __init__(self, x, y):
@@ -17,6 +18,9 @@ class Node(INode):
             return True
         else:
             return False
+
+    def heuristic(self, target):
+        return sqrt((target.x - self.x)**2 + (target.y - self.y)**2)
 
     def __str__(self):
         degree = self.get_degree()
