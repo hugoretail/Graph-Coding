@@ -11,6 +11,7 @@
         - [Requirements](#requirements-1)
         - [Pseudo Code](#pseudo-code-1)
     - [UCS (Uniform Cost Search)](#ucs-uniform-cost-search)
+    - [A* (AStar Search)](#a-astar-search)
 
 ---
 
@@ -126,15 +127,59 @@ ReconstructPath(Dictionary visited, Vertex start, Vertex goal):
     path.reverse();
     return path;
 ```
-Adaptated from: https://www.geeksforgeeks.org/uniform-cost-search-ucs-in-ai/
+Adapted from: https://www.geeksforgeeks.org/uniform-cost-search-ucs-in-ai/
 
 ---
+
+### A* (AStar Search)
+
+#### Requirements
+- A defined starting node and target node.
+- A heuristic function `h(n)` to estimate the cost to reach the goal from node `n`.
+
+#### Pseudo Code
+
+```plaintext
+procedure AStar(start, goal) is:
+  openSet = CreateMinHeap() // Priority Queue
+  openSet.insert((h(start), start)) // (f(n) = g(n) + h(n), node)
+  gScore = Dictionary with default value ∞
+  gScore[start] = 0
+  cameFrom = Empty Dictionary
+  
+  while openSet is not empty do:
+    (f_current, current) = openSet.removeMin()
+    
+    if current == goal then:
+      return ReconstructPath(cameFrom, current)
+
+    for each neighbor in Neighbors(current) do:
+      tentative_gScore = gScore[current] + Cost(current, neighbor)
+      if tentative_gScore < gScore[neighbor] then:
+        cameFrom[neighbor] = current
+        gScore[neighbor] = tentative_gScore
+        fScore = gScore[neighbor] + h(neighbor)
+        openSet.insert((fScore, neighbor))
+
+  return failure
+
+procedure ReconstructPath(cameFrom, current) is:
+  path = CreateEmptyList()
+  while current in cameFrom do:
+    path.append(current)
+    current = cameFrom[current]
+  path.reverse()
+  return path
+```
+Source: https://en.wikipedia.org/wiki/A*_search_algorithm
 
 ### GBS (Greedy Best-First Search)
 
 #### Requirements
 - A defined starting node and target node.
 - A heuristic function to estimate the "distance" from the current node to the target.
+
+---
 
 #### Pseudo Code
 
@@ -155,6 +200,55 @@ procedure GBS(start, target) is:
   return failure
 ```
 Source: https://en.wikipedia.org/wiki/Best-first_search
+
+---
+
+### A* (A-Star Search)
+
+#### Requirements
+- A graph with weighted edges.
+- A defined starting node and goal node.
+- A heuristic function to estimate the cost from a node to the goal.
+
+#### Pseudo Code
+
+```plaintext
+AStar(Graph G, Vertex start, Vertex goal, Function h):
+    openSet ← CreatePriorityQueue()
+    openSet.insert((h(start), start)) // (fScore, node)
+
+    cameFrom ← CreateDictionary()
+    gScore ← CreateDictionaryWithDefaultValue(Infinity)
+    gScore[start] ← 0
+
+    path ← CreateEmptyList()
+
+    while openSet is not empty do:
+        (f, current) ← openSet.removeMin()
+
+        if current = goal then:
+            current ← goal
+            while current is not None do:
+                path.prepend(current)
+                current ← cameFrom[current] if current in cameFrom else None
+            return path
+
+        for each (neighbor, edgeCost) in G[current] do:
+            tentative_gScore ← gScore[current] + edgeCost
+
+            if tentative_gScore < gScore[neighbor] then:
+                cameFrom[neighbor] ← current
+                gScore[neighbor] ← tentative_gScore
+                f ← tentative_gScore + h(neighbor)
+
+                if neighbor not in openSet then:
+                    openSet.insert((f, neighbor))
+
+    return failure
+``` 
+Adapted from: https://en.wikipedia.org/wiki/Best-first_search
+
+---
 
 ## License
 
