@@ -281,10 +281,48 @@ class Graph(IGraph):
                         if edge not in edges_taken and edge:
                             edges_taken.append(edge)
 
-            self.apply_algorithm_result(nodes_taken, edges_taken)
+        self.apply_algorithm_result(nodes_taken, edges_taken)
 
     def a_star(self):
-        pass
+        start, end = self.get_start_end_nodes()
+
+        if not start or not end:
+            print("Start or end node is not selected.")
+            return
+
+        open_set = [(start.heuristic(end), start)]
+        g_score = {node: float('inf') for node in self.nodes}
+        g_score[start] = 0
+        came_from = {}
+
+        while open_set:
+            f_score, current = heapq.heappop(open_set)
+
+            if current == end:
+                nodes_taken = []
+                edges_taken = []
+                while current in came_from:
+                    nodes_taken.append(current)
+                    previous = came_from[current]
+                    edges_taken.append(self.get_edge_from_nodes(previous, current))
+                    current = previous
+
+                nodes_taken.append(start)
+                nodes_taken.reverse()
+                self.apply_algorithm_result(nodes_taken, edges_taken)
+                return
+
+            for edge in current.edges:
+                neighbor = edge.get_opposite(current)
+                tentative_g_score = g_score[current] + edge.weight
+
+                if tentative_g_score < g_score[neighbor]:
+                    came_from[neighbor] = current
+                    g_score[neighbor] = tentative_g_score
+                    f_score = tentative_g_score + neighbor.heuristic(end)
+                    heapq.heappush(open_set, (f_score, neighbor))
+
+        print("No path found")
 
     def dijkstra(self):
         pass

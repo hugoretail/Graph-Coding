@@ -1,6 +1,3 @@
-from PyQt5.QtGui import QPen, QBrush, QColor, QLinearGradient
-from PyQt5.QtCore import Qt
-
 class GraphController:
     def __init__(self, model, view):
         self.model = model
@@ -45,7 +42,7 @@ class GraphController:
         if self.model.selected_nodes_counter == 1:
             self.view.toggle_algorithms_menu(["BFS", "DFS"])
         elif self.model.selected_nodes_counter == 2:
-            self.view.toggle_algorithms_menu(["UCS"])
+            self.view.toggle_algorithms_menu(["UCS", "A*"])
         else:
             self.view.disable_algorithms_menu()
 

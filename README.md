@@ -46,17 +46,16 @@ A Python application for graph-related operations and algorithm implementations.
 #### Pseudo Code
 
 ```plaintext
-BreadthFirstSearch(Graph G, Vertex s):
-    q = CreateQueue();
-    q.enqueue(s);
-    mark(s);
-    while the queue is not empty:
-        s = q.dequeue();
-        print(s);
-        for each neighbor t of s in G:
-            if t is not marked:
-                q.enqueue(t);
-                mark(t);
+   procedure BreadthFirstSearch(Graph G, Vertex s):
+       queue = CreateQueue()
+       queue.enqueue(s)
+       mark(s)
+       while queue is not empty do:
+           s = queue.dequeue()
+           for each neighbor t of s do:
+               if t is not marked then:
+                   queue.enqueue(t)
+                   mark(t)
 ```
 Source: https://en.wikipedia.org/wiki/Breadth-first_search
 
@@ -70,17 +69,16 @@ Source: https://en.wikipedia.org/wiki/Breadth-first_search
 #### Pseudo Code
 
 ```plaintext
-DepthFirstSearchIterative(Graph G, Vertex s):
-    stack = CreateStack()
-    stack.push(s)
-    while stack is not empty:
-        s = stack.pop()
-        if s is not marked:
-            mark vertex s
-            print vertex s
-            for each vertex t adjacent to vertex s:
-                if t is not marked:
-                    stack.push(t)
+   procedure DepthFirstSearchIterative(Graph G, Vertex s):
+       stack = CreateStack()
+       stack.push(s)
+       while stack is not empty do:
+           s = stack.pop()
+           if s is not marked then:
+               mark(s)
+               for each neighbor t of s do:
+                   if t is not marked then:
+                       stack.push(t)
 ```
 Adapted from: https://en.wikipedia.org/wiki/Depth-first_search
 
@@ -96,36 +94,23 @@ Adapted from: https://en.wikipedia.org/wiki/Depth-first_search
 
 ```plaintext
 UniformCostSearch(Graph G, Vertex start, Vertex goal):
-    priorityQueue = CreateMinHeap();
-    priorityQueue.insert((0, start)); // (cost, vertex)
-    visited = CreateDictionary();
-    visited[start] = (0, None); // (cost, parent)
+   procedure UniformCostSearch(Graph G, Vertex start, Vertex goal):
+       priorityQueue = CreateMinHeap()
+       priorityQueue.insert((0, start)) // (cost, vertex)
+       visited = CreateDictionary()
+       visited[start] = (0, None) // (cost, parent)
 
-    while priorityQueue is not empty:
-        (currentCost, currentNode) = priorityQueue.removeMin();
+       while priorityQueue is not empty do:
+           (currentCost, currentNode) = priorityQueue.removeMin()
+           if currentNode == goal then:
+               return ReconstructPath(visited, start, goal)
 
-        if currentNode == goal:
-            return (currentCost, ReconstructPath(visited, start, goal));
-
-        for each (neighbor, edgeCost) in G[currentNode]:
-            totalCost = currentCost + edgeCost;
-
-            if neighbor not in visited OR totalCost < visited[neighbor][0]:
-                visited[neighbor] = (totalCost, currentNode);
-                priorityQueue.insert((totalCost, neighbor));
-
-    return None; // Goal is not reachable
-
-ReconstructPath(Dictionary visited, Vertex start, Vertex goal):
-    path = CreateEmptyList();
-    current = goal;
-
-    while current is not None:
-        path.append(current);
-        current = visited[current][1];
-
-    path.reverse();
-    return path;
+           for each (neighbor, edgeCost) in Neighbors(currentNode) do:
+               totalCost = currentCost + edgeCost
+               if neighbor not in visited OR totalCost < visited[neighbor][0] then:
+                   visited[neighbor] = (totalCost, currentNode)
+                   priorityQueue.insert((totalCost, neighbor))
+       return failure
 ```
 Adapted from: https://www.geeksforgeeks.org/uniform-cost-search-ucs-in-ai/
 
@@ -140,36 +125,29 @@ Adapted from: https://www.geeksforgeeks.org/uniform-cost-search-ucs-in-ai/
 #### Pseudo Code
 
 ```plaintext
-procedure AStar(start, goal) is:
-  openSet = CreateMinHeap() // Priority Queue
-  openSet.insert((h(start), start)) // (f(n) = g(n) + h(n), node)
-  gScore = Dictionary with default value ∞
-  gScore[start] = 0
-  cameFrom = Empty Dictionary
-  
-  while openSet is not empty do:
-    (f_current, current) = openSet.removeMin()
-    
-    if current == goal then:
-      return ReconstructPath(cameFrom, current)
+   procedure AStar(Graph G, Vertex start, Vertex goal, Function h):
+       openSet = CreatePriorityQueue()
+       openSet.insert((h(start), start)) // (fScore, node)
 
-    for each neighbor in Neighbors(current) do:
-      tentative_gScore = gScore[current] + Cost(current, neighbor)
-      if tentative_gScore < gScore[neighbor] then:
-        cameFrom[neighbor] = current
-        gScore[neighbor] = tentative_gScore
-        fScore = gScore[neighbor] + h(neighbor)
-        openSet.insert((fScore, neighbor))
+       cameFrom = Dictionary
+       gScore = Dictionary with default value INFINITY
+       gScore[start] = 0
 
-  return failure
+       while openSet is not empty do:
+           (f, current) = openSet.removeMin()
 
-procedure ReconstructPath(cameFrom, current) is:
-  path = CreateEmptyList()
-  while current in cameFrom do:
-    path.append(current)
-    current = cameFrom[current]
-  path.reverse()
-  return path
+           if current == goal then:
+               return ReconstructPath(cameFrom, goal)
+
+           for each neighbor in Neighbors(current) do:
+               tentative_gScore = gScore[current] + Cost(current, neighbor)
+
+               if tentative_gScore < gScore[neighbor] then:
+                   cameFrom[neighbor] = current
+                   gScore[neighbor] = tentative_gScore
+                   f = tentative_gScore + h(neighbor)
+                   openSet.insert((f, neighbor))
+       return failure
 ```
 Source: https://en.wikipedia.org/wiki/A*_search_algorithm
 
@@ -184,20 +162,20 @@ Source: https://en.wikipedia.org/wiki/A*_search_algorithm
 #### Pseudo Code
 
 ```plaintext
-procedure GBS(start, target) is:
-  mark start as visited
-  add start to queue
-  while queue is not empty do:
-    current_node ← vertex of queue with min distance to target
-    remove current_node from queue
-    foreach neighbor n of current_node do:
-      if n not in visited then:
-        if n is target:
-          return n
-        else:
-          mark n as visited
-          add n to queue
-  return failure
+    procedure GBS(start, target) is:
+      mark start as visited
+      add start to queue
+      while queue is not empty do:
+        current_node ← vertex of queue with min distance to target
+        remove current_node from queue
+        foreach neighbor n of current_node do:
+          if n not in visited then:
+            if n is target:
+              return n
+            else:
+              mark n as visited
+              add n to queue
+      return failure
 ```
 Source: https://en.wikipedia.org/wiki/Best-first_search
 
@@ -247,6 +225,35 @@ AStar(Graph G, Vertex start, Vertex goal, Function h):
     return failure
 ``` 
 Adapted from: https://en.wikipedia.org/wiki/Best-first_search
+
+---
+
+### Dijkstra’s Algorithm
+
+#### Requirements
+- A graph with weighted edges.
+- A defined starting and end node.
+
+#### Pseudo Code
+
+```plaintext
+procedure Dijkstra(Graph G, Vertex source):
+    dist = Dictionary with default value INFINITY
+    prev = Dictionary
+    dist[source] = 0
+    Q = All vertices in G
+
+    while Q is not empty do:
+        u = Vertex in Q with minimum dist[u]
+        remove u from Q
+        for each neighbor v of u still in Q do:
+            alt = dist[u] + Cost(u, v)
+            if alt < dist[v] then:
+                dist[v] = alt
+                prev[v] = u
+    return dist, prev
+```
+Source: https://en.wikipedia.org/wiki/Dijkstra's_algorithm
 
 ---
 
