@@ -26,9 +26,6 @@ A Python application for graph-related operations and algorithm implementations.
 - [ ] Keep the display of the selected node(s) after applying an algorithm
 - [ ] Add documentation (interfaces, usage, etc.)
 - [ ] Implement all the algorithms
-  - [ ] Greedy Best-First
-  - [ ] A*
-  - [ ] Dijkstra
   - [ ] Bellman-Ford
   - [ ] Floyd-Warshall
   - [ ] Prim
@@ -256,6 +253,8 @@ procedure Dijkstra(Graph G, Vertex source):
 Source: https://en.wikipedia.org/wiki/Dijkstra's_algorithm
 
 ---
+
+
 
 ## License
 
