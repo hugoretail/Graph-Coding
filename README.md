@@ -5,13 +5,10 @@
 - [Todo](#todo)
 - [Algorithms](#algorithms)
     - [BFS (Breadth-First Search)](#bfs-breadth-first-search)
-        - [Requirements](#requirements)
-        - [Pseudo Code](#pseudo-code)
     - [DFS (Depth-First Search)](#dfs-depth-first-search)
-        - [Requirements](#requirements-1)
-        - [Pseudo Code](#pseudo-code-1)
     - [UCS (Uniform Cost Search)](#ucs-uniform-cost-search)
     - [A* (AStar Search)](#a-astar-search)
+    - TODO
 
 ---
 
