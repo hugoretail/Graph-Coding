@@ -26,7 +26,6 @@ A Python application for graph-related operations and algorithm implementations.
 - [ ] Keep the display of the selected node(s) after applying an algorithm
 - [ ] Add documentation (interfaces, usage, etc.)
 - [ ] Implement all the algorithms
-  - [ ] Bellman-Ford
   - [ ] Floyd-Warshall
   - [ ] Prim
   - [ ] Kruskal
@@ -250,10 +249,34 @@ procedure Dijkstra(Graph G, Vertex source):
                 prev[v] = u
     return dist, prev
 ```
-Source: https://en.wikipedia.org/wiki/Dijkstra's_algorithm
-
 ---
 
+### Bellman-Ford Algorithm
+
+#### Requirements
+- A graph with weighted edges (negative weights allowed).
+- A source node to start the calculations.
+
+#### Pseudo Code
+
+```plaintext
+function BellmanFord(Graph G, EdgeWeights, Source):
+    for each vertex u in G:
+        Distance[u] = INFINITY
+        Predecessor[u] = NONE
+    Distance[Source] = 0
+
+    for i from 1 to |G| - 1:
+        for each edge (u, v) in G.Edges:
+            if Distance[u] + EdgeWeights(u, v) < Distance[v]:
+                Distance[v] = Distance[u] + EdgeWeights(u, v)
+                Predecessor[v] = u
+
+    return Distance, Predecessor
+```
+Source: https://fr.wikipedia.org/wiki/Algorithme_de_Bellman-Ford
+
+---
 
 
 ## License

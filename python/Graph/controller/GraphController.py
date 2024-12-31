@@ -40,9 +40,9 @@ class GraphController:
         self.view.update_node_styles(self.model.selected_nodes)
 
         if self.model.selected_nodes_counter == 1:
-            self.view.toggle_algorithms_menu(["BFS", "DFS"])
+            self.view.toggle_algorithms_menu(["BFS", "DFS", "Bellman-Ford"])
         elif self.model.selected_nodes_counter == 2:
-            self.view.toggle_algorithms_menu(["UCS", "A*"])
+            self.view.toggle_algorithms_menu(["UCS", "A*", "Dijkstra", "Bellman-Ford"])
         else:
             self.view.disable_algorithms_menu()
 

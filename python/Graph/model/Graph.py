@@ -325,10 +325,94 @@ class Graph(IGraph):
         print("No path found")
 
     def dijkstra(self):
-        pass
+        start = self.get_start_node()
+        if not start:
+            print("Start node is not selected.")
+            return
+
+        dist = {node: float('inf') for node in self.nodes}
+        prev = {node: None for node in self.nodes}
+        dist[start] = 0
+        priority_queue = [(0, start)]
+
+        nodes_taken = []
+        edges_taken = []
+
+        while priority_queue:
+            current_dist, current_node = heapq.heappop(priority_queue)
+
+            if current_node.mark:
+                continue
+            current_node.mark = True
+            nodes_taken.append(current_node)
+
+            for edge in current_node.edges:
+                neighbor = edge.get_opposite(current_node)
+                new_dist = current_dist + edge.weight
+
+                if new_dist < dist[neighbor]:
+                    dist[neighbor] = new_dist
+                    prev[neighbor] = current_node
+                    heapq.heappush(priority_queue, (new_dist, neighbor))
+
+        # Reconstruct the path
+        end = self.get_end_node()
+        if end:
+            current = end
+            while prev[current] is not None:
+                edges_taken.append(self.get_edge_from_nodes(prev[current], current))
+                current = prev[current]
+
+        self.apply_algorithm_result(nodes_taken, edges_taken)
 
     def bellman_ford(self):
-        pass
+        start = self.get_start_node()
+        if not start:
+            print("Start node is not selected.")
+            return
+
+        dist = {node: float('inf') for node in self.nodes}
+        prev = {node: None for node in self.nodes}
+        dist[start] = 0
+
+        for _ in range(len(self.nodes) - 1):
+            for edge in self.edges:
+                u = edge.node1
+                v = edge.node2
+                weight = edge.weight
+
+                if dist[u] != float('inf') and dist[u] + weight < dist[v]:
+                    dist[v] = dist[u] + weight
+                    prev[v] = u
+
+                if dist[v] != float('inf') and dist[v] + weight < dist[u]:
+                    dist[u] = dist[v] + weight
+                    prev[u] = v
+
+        for edge in self.edges:
+            u = edge.node1
+            v = edge.node2
+            weight = edge.weight
+
+            if dist[u] != float('inf') and dist[u] + weight < dist[v]:
+                print("Graph contains a negative-weight cycle.")
+                return
+
+        nodes_taken = []
+        edges_taken = []
+        end = self.get_end_node()
+
+        if end:
+            current = end
+            while current:
+                nodes_taken.append(current)
+                if prev[current]:
+                    edges_taken.append(self.get_edge_from_nodes(prev[current], current))
+                current = prev[current]
+
+            nodes_taken.reverse()
+
+        self.apply_algorithm_result(nodes_taken, edges_taken)
 
     def floyd_warshall(self):
         pass
