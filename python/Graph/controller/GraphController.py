@@ -42,7 +42,7 @@ class GraphController:
         if self.model.selected_nodes_counter == 1:
             self.view.toggle_algorithms_menu(["BFS", "DFS", "Bellman-Ford"])
         elif self.model.selected_nodes_counter == 2:
-            self.view.toggle_algorithms_menu(["UCS", "A*", "Dijkstra", "Bellman-Ford"])
+            self.view.toggle_algorithms_menu(["UCS", "A*", "Dijkstra", "Bellman-Ford", "Floyd-Warshall"])
         else:
             self.view.disable_algorithms_menu()
 

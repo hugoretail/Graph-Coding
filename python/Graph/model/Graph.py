@@ -415,7 +415,47 @@ class Graph(IGraph):
         self.apply_algorithm_result(nodes_taken, edges_taken)
 
     def floyd_warshall(self):
-        pass
+        if not self.nodes:
+            print("Le graphe ne contient aucun nœud.")
+            return
+
+        n = len(self.nodes)
+        dist = [[float('inf')] * n for _ in range(n)]
+        next_node = [[None] * n for _ in range(n)]
+
+        for i, node in enumerate(self.nodes):
+            dist[i][i] = 0
+            for edge in node.edges:
+                neighbor = edge.get_opposite(node)
+                j = self.nodes.index(neighbor)
+                dist[i][j] = edge.weight
+                next_node[i][j] = j
+
+        for k in range(n):
+            for i in range(n):
+                for j in range(n):
+                    if dist[i][k] + dist[k][j] < dist[i][j]:
+                        dist[i][j] = dist[i][k] + dist[k][j]
+                        next_node[i][j] = next_node[i][k]
+
+        nodes_taken = set()
+        edges_taken = set()
+
+        for i in range(n):
+            for j in range(n):
+                if i != j and dist[i][j] != float('inf'):
+                    current = i
+                    while current != j:
+                        node1 = self.nodes[current]
+                        node2 = self.nodes[next_node[current][j]]
+                        edge = self.get_edge_from_nodes(node1, node2)
+                        nodes_taken.add(node1)
+                        nodes_taken.add(node2)
+                        if edge:
+                            edges_taken.add(edge)
+                        current = next_node[current][j]
+
+        self.apply_algorithm_result(list(nodes_taken), list(edges_taken))
 
     def prim(self):
         pass
