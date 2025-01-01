@@ -109,6 +109,31 @@ Adapted from: https://www.geeksforgeeks.org/uniform-cost-search-ucs-in-ai/
 
 ---
 
+### Floyd-Warshall Algorithm
+
+#### Requirements
+- A graph with weighted edges.
+- No negative weight cycles in the graph.
+
+#### Pseudo Code
+
+```plaintext
+function FloydWarshall(Graph G):
+    W = AdjacencyMatrix(G) // n x n matrix representing edge weights
+    n = NumberOfVertices(G)
+
+    for k from 1 to n do:
+        for i from 1 to n do:
+            for j from 1 to n do:
+                W[i][j] = min(W[i][j], W[i][k] + W[k][j])
+
+    return W
+```
+
+Source: https://fr.wikipedia.org/wiki/Algorithme_de_Floyd-Warshall
+
+---
+
 ### A* (AStar Search)
 
 #### Requirements
