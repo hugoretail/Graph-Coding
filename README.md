@@ -2,31 +2,38 @@
  
 ## Table of Contents
 - [Overview](#overview)
-- [Todo](#todo)
+- [Features](#features)
+- [Usage Instructions](#usage-instructions)
 - [Algorithms](#algorithms)
     - [BFS (Breadth-First Search)](#bfs-breadth-first-search)
     - [DFS (Depth-First Search)](#dfs-depth-first-search)
     - [UCS (Uniform Cost Search)](#ucs-uniform-cost-search)
-    - [A* (AStar Search)](#a-astar-search)
-    - [Prim's Algorithm](#prims-algorithm-minimum-spanning-tree)
-    - [Kruskal's Algorithm](#kruskals-algorithm-minimum-spanning-tree)
-    - TODO
+    - [Floyd-Warshall Algorithm](#floyd-warshall-algorithm)
+    - [A* (AStar Search)](#a-star-search)
+    - [Greedy Best-First Search](#gbs-greedy-best-first-search)
+    - [Prim's Algorithm (Minimum Spanning Tree)](#prims-algorithm-minimum-spanning-tree)
+    - [Kruskal's Algorithm (Minimum Spanning Tree)](#kruskals-algorithm-minimum-spanning-tree)
+    - [Dijkstra’s Algorithm](#dijkstras-algorithm)
+    - [Bellman-Ford Algorithm](#bellman-ford-algorithm)
+- [License](#license)
 
 ---
+
+## Features
+- Implements multiple graph algorithms, including traversal, shortest paths, and minimum spanning trees.
+- Supports various weighted and unweighted graph scenarios.
+- Includes algorithm pseudocode and references for learning purposes.
+
+## Usage Instructions
+- Clone the repository to your local machine.
+- Install necessary Python dependencies if required.
+- Run the corresponding Python scripts for each algorithm.
+- Graphs can be visualized using added tools where possible.
+
 
 ## Overview
 
 A Python application for graph-related operations and algorithm implementations. This includes visualizing graphs and running various search and shortest path algorithms.
-
----
-
-## Todo
-
-- [ ] Keep the display of the selected node(s) after applying an algorithm
-- [ ] Add documentation (interfaces, usage, etc.)
-- [ ] Implement all the algorithms
-  - [ ] Prim
-  - [ ] Kruskal
 
 ---
 
@@ -110,7 +117,7 @@ Adapted from: https://www.geeksforgeeks.org/uniform-cost-search-ucs-in-ai/
 
 ---
 
-### Floyd-Warshall Algorithm
+### Floyd-Warshall Algorithm (All-Pairs Shortest Path)
 
 #### Requirements
 - A graph with weighted edges.
@@ -135,7 +142,7 @@ Source: https://fr.wikipedia.org/wiki/Algorithme_de_Floyd-Warshall
 
 ---
 
-### A* (AStar Search)
+### A* (AStar Search Algorithm)
 
 #### Requirements
 - A defined starting node and target node.
@@ -170,7 +177,7 @@ Source: https://fr.wikipedia.org/wiki/Algorithme_de_Floyd-Warshall
 ```
 Source: https://en.wikipedia.org/wiki/A*_search_algorithm
 
-### GBS (Greedy Best-First Search)
+### Greedy Best-First Search (GBS)
 
 #### Requirements
 - A defined starting node and target node.
@@ -248,7 +255,7 @@ Source: https://fr.wikipedia.org/wiki/Algorithme_de_Kruskal
 ---
 
 ### A* (A-Star Search)
-
+### A* (A-Star Search Algorithm)
 #### Requirements
 - A graph with weighted edges.
 - A defined starting node and goal node.
@@ -326,7 +333,7 @@ procedure Dijkstra(Graph G, Vertex source):
 #### Requirements
 - A graph with weighted edges (negative weights allowed).
 - A source node to start the calculations.
-
+- Robust algorithm against negative weights for edges.
 #### Pseudo Code
 
 ```plaintext
@@ -351,4 +358,4 @@ Source: https://fr.wikipedia.org/wiki/Algorithme_de_Bellman-Ford
 
 ## License
 
-Feel free to modify and use this project.
+Feel free to use/modify this project.
