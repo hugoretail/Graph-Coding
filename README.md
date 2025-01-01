@@ -8,6 +8,8 @@
     - [DFS (Depth-First Search)](#dfs-depth-first-search)
     - [UCS (Uniform Cost Search)](#ucs-uniform-cost-search)
     - [A* (AStar Search)](#a-astar-search)
+    - [Prim's Algorithm](#prims-algorithm-minimum-spanning-tree)
+    - [Kruskal's Algorithm](#kruskals-algorithm-minimum-spanning-tree)
     - TODO
 
 ---
@@ -23,7 +25,6 @@ A Python application for graph-related operations and algorithm implementations.
 - [ ] Keep the display of the selected node(s) after applying an algorithm
 - [ ] Add documentation (interfaces, usage, etc.)
 - [ ] Implement all the algorithms
-  - [ ] Floyd-Warshall
   - [ ] Prim
   - [ ] Kruskal
 
@@ -196,6 +197,53 @@ Source: https://en.wikipedia.org/wiki/A*_search_algorithm
       return failure
 ```
 Source: https://en.wikipedia.org/wiki/Best-first_search
+
+---
+
+### Prim's Algorithm (Minimum Spanning Tree)
+
+#### Requirements:
+- A connected, weighted graph G.
+- A starting vertex s.
+
+```plaintext
+procedure Prim(Graph G, Vertex s):
+    for each vertex t in G:
+        cost[t] = INFINITY
+        pred[t] = null
+    cost[s] = 0
+    F = CreatePriorityQueueWithVertices(G, cost)
+    while F is not empty do:
+        t = F.dequeue()
+        for each edge t--u where u is in F do:
+            if cost[u] >= Weight(t--u) then:
+                pred[u] = t
+                cost[u] = Weight(t--u)
+                F.decreaseKey(u, cost[u])
+    return pred
+```
+Source: https://fr.wikipedia.org/wiki/Algorithme_de_Prim
+
+---
+
+### Kruskal's Algorithm (Minimum Spanning Tree)
+
+#### Requirements:
+- A connected, weighted graph G.
+
+```plaintext
+procedure Kruskal(Graph G):
+    A = EmptySet()
+    for each vertex v in G:
+        MakeSet(v)
+    Edges = GetEdgesSortedByWeight(G)
+    for each edge (u, v) in Edges do:
+        if Find(u) != Find(v):
+            A.add((u, v))
+            Union(u, v)
+    return A
+```
+Source: https://fr.wikipedia.org/wiki/Algorithme_de_Kruskal
 
 ---
 

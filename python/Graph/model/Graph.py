@@ -458,10 +458,83 @@ class Graph(IGraph):
         self.apply_algorithm_result(list(nodes_taken), list(edges_taken))
 
     def prim(self):
-        pass
+        if not self.nodes:
+            print("The graph has no nodes.")
+            return
+
+        start = self.get_start_node()
+        if not start:
+            print("Start node is not selected.")
+            return
+
+        priority_queue = []
+        visited = set()
+        node_costs = {node: float('inf') for node in self.nodes}
+        prev_edges = {node: None for node in self.nodes}
+        node_costs[start] = 0
+        heapq.heappush(priority_queue, (0, start))
+
+        edges_taken = []
+        nodes_taken = []
+
+        while priority_queue:
+            _, current = heapq.heappop(priority_queue)
+            if current in visited:
+                continue
+
+            visited.add(current)
+            nodes_taken.append(current)
+            if prev_edges[current]:
+                edges_taken.append(prev_edges[current])
+
+            for edge in current.edges:
+                neighbor = edge.get_opposite(current)
+                if neighbor not in visited and edge.weight < node_costs[neighbor]:
+                    node_costs[neighbor] = edge.weight
+                    prev_edges[neighbor] = edge
+                    heapq.heappush(priority_queue, (edge.weight, neighbor))
+
+        self.apply_algorithm_result(nodes_taken, edges_taken)
 
     def kruskal(self):
-        pass
+        # Kruskal's Algorithm implementation
+        if not self.edges or not self.nodes:
+            print("The graph is empty.")
+            return
+
+        parent = {node: node for node in self.nodes}
+        rank = {node: 0 for node in self.nodes}
+
+        def find(node):
+            if parent[node] != node:
+                parent[node] = find(parent[node])
+            return parent[node]
+
+        def union(node1, node2):
+            root1 = find(node1)
+            root2 = find(node2)
+            if root1 != root2:
+                if rank[root1] > rank[root2]:
+                    parent[root2] = root1
+                elif rank[root1] < rank[root2]:
+                    parent[root1] = root2
+                else:
+                    parent[root2] = root1
+                    rank[root1] += 1
+
+        edges_taken = []
+        nodes_taken = set()
+        sorted_edges = sorted(self.edges, key=lambda edge: edge.weight)
+
+        for edge in sorted_edges:
+            u, v = edge.node1, edge.node2
+            if find(u) != find(v):
+                union(u, v)
+                edges_taken.append(edge)
+                nodes_taken.add(u)
+                nodes_taken.add(v)
+
+        self.apply_algorithm_result(list(nodes_taken), edges_taken)
 
     def __str__(self):
         nodes_str = "\n  ".join(str(node) for node in self.nodes)
